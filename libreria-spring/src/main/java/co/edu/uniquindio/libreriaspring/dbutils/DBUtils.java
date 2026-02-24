@@ -270,6 +270,55 @@ public class DBUtils implements DB {
         return null;
     }
 
+    public List<Libro> obtenerLibroCoincidentesPorTitulo(String palabra) throws SQLException {
+        List<Libro> libros = new ArrayList<>();
+        String sql = "SELECT * FROM libro WHERE titulo LIKE ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, "%" + palabra + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                libros.add(new Libro(
+                        resultSet.getInt("id"),
+                        resultSet.getString("isbn"),
+                        resultSet.getString("titulo"),
+                        resultSet.getString("autor"),
+                        resultSet.getInt("año_publicacion")
+                ));
+            }
+        }
+
+        return libros;
+    }
+
+
+    public List<Libro> obtenerLibroCoincidentesPorAutor(String palabra) throws SQLException {
+        List<Libro> libros = new ArrayList<>();
+        String sql = "SELECT * FROM libro WHERE autor LIKE ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, "%" + palabra + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                libros.add(new Libro(
+                        resultSet.getInt("id"),
+                        resultSet.getString("isbn"),
+                        resultSet.getString("titulo"),
+                        resultSet.getString("autor"),
+                        resultSet.getInt("año_publicacion")
+                ));
+            }
+        }
+
+        return libros;
+    }
+
     /**
      * Obtiene una conexión a la base de datos SQLite
      * @return Connection a la base de datos
