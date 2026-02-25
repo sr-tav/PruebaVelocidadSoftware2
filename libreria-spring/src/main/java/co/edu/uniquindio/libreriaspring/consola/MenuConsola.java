@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import co.edu.uniquindio.libreriaspring.service.LibroService;
 import co.edu.uniquindio.libreriaspring.domain.Libro;
 
+import co.edu.uniquindio.libreriaspring.service.PuntuacionService;
+
 
 import java.util.Scanner;
 
@@ -12,6 +14,9 @@ import java.util.Scanner;
 public class MenuConsola{
     Scanner sc = new Scanner(System.in);
     private final ConfigurableApplicationContext context;
+    private final PuntuacionService puntuacionService;
+    private final LibroService libroService;
+
     String mensaje = "//////// MENU LIBRERIA //////////\n" +
             "1. consultar por autor o titulo \n" +
             "2. consultar por cualquiera \n" +
@@ -19,10 +24,10 @@ public class MenuConsola{
             "4. hacer reseña de un libro \n" +
             "0. salir \n";
 
-    private final LibroService libroService = new LibroService(); // Inyección de dependencias manual, inicializa el servicio de libros
-
-    public MenuConsola(ConfigurableApplicationContext context) {
+    public MenuConsola(ConfigurableApplicationContext context, PuntuacionService puntuacionService, LibroService libroService) {
         this.context = context;
+        this.puntuacionService = puntuacionService;
+        this.libroService = libroService;
     }
 
     public void mostrarMenu(){
@@ -53,7 +58,24 @@ public class MenuConsola{
                     buscarLibrosPorCriterios();
                     break;
                 case "3":
-                    System.out.println("aqui va la logica para la tercer funcionalidad");
+                    try {
+                        System.out.print("Ingrese ISBN del libro: ");
+                        String isbn = sc.nextLine();
+
+                        System.out.print("Ingrese puntuación (1-5): ");
+                        int valor = Integer.parseInt(sc.nextLine());
+
+                        // Usuario temporal y se llama
+                        int usuarioId = 1;
+
+                        //Se llama al método que tiene toda la lógica
+                        puntuacionService.puntuarLibro(usuarioId, isbn, valor);
+
+                        System.out.println("Libro puntuado correctamente ✅");
+
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
                     break;
                 case "4":
                     System.out.println("aqui va la logica para la cuarta funcionalidad");
