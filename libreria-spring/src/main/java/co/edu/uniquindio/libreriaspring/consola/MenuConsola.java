@@ -19,10 +19,11 @@ public class MenuConsola{
             "4. hacer reseña de un libro \n" +
             "0. salir \n";
 
-    private final LibroService libroService = new LibroService(); // Inyección de dependencias manual, inicializa el servicio de libros
-
-    public MenuConsola(ConfigurableApplicationContext context) {
+    //private final LibroService libroService = new LibroService(); // Inyección de dependencias manual, inicializa el servicio de libros
+    private final LibroService libroService;
+    public MenuConsola(ConfigurableApplicationContext context, LibroService libroService) {
         this.context = context;
+        this.libroService = libroService;
     }
 
     public void mostrarMenu(){
