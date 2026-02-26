@@ -340,6 +340,13 @@ public class DBUtils implements DB {
                 ps.setString(4, "juan@example.com");
                 ps.setString(5, "password123");
                 ps.executeUpdate();
+
+                ps.setString(1, "admin");
+                ps.setString(2, "00");
+                ps.setString(3, "00000000");
+                ps.setString(4, "admin@example.com");
+                ps.setString(5, "admin");
+                ps.executeUpdate();
             }
 
             // Insertar libros de prueba
